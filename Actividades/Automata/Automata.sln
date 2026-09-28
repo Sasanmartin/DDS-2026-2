@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automata", "Automata\Automata.csproj", "{755D1666-AAC1-45A2-BB07-73F43BF53C9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automata.Tests", "Automata.Tests\Automata.Tests.csproj", "{F7024E16-CC5F-4898-BA07-DE78C9B04123}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{755D1666-AAC1-45A2-BB07-73F43BF53C9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{755D1666-AAC1-45A2-BB07-73F43BF53C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{755D1666-AAC1-45A2-BB07-73F43BF53C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{755D1666-AAC1-45A2-BB07-73F43BF53C9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7024E16-CC5F-4898-BA07-DE78C9B04123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7024E16-CC5F-4898-BA07-DE78C9B04123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7024E16-CC5F-4898-BA07-DE78C9B04123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7024E16-CC5F-4898-BA07-DE78C9B04123}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

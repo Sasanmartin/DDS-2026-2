@@ -1,0 +1,1009 @@
+Pontificia Universidad Católica de Chile
+Escuela de Ingenierı́a
+Departamento de Ciencia de la Computación
+
+Clase 02: Clean Code (Cap. 1 y 2)
+Francisco Gazitúa Requena (fco gazitua requena@uc.cl)
+IIC2113 Diseño Detallado de Software
+
+11 de Agosto, 2026
+
+1/28
+
+Clean code
+
+“You are reading this book for two reasons. First, you are a programmer. Second, you
+want to be a better programmer. Good. We need better programmers.”
+– Robert C. Martin.
+
+2/28
+
+Clean code
+
+Motivación: “good code matters.”
+
+3/28
+
+Clean code
+Ser profesional implica preocuparse por la calidad del código que escribimos.
+
+4/28
+
+Clean code
+Ser profesional implica preocuparse por la calidad del código que escribimos.
+
+4/28
+
+Clean code
+
+Escribir código limpio es un arte que toma tiempo (y disciplina) perfeccionar.
+
+5/28
+
+Clean code
+
+Escribir código limpio es un arte que toma tiempo (y disciplina) perfeccionar.
+
+... y el primer paso es saber qué significa que un código esté limpio.
+
+5/28
+
+Clean code
+¿Qué es el código limpio?
+
+6/28
+
+Clean code
+¿Qué es el código limpio?
+
+6/28
+
+Clean code
+¿Qué es el código limpio?
+
+6/28
+
+Clean code
+¿Qué es el código limpio?
+
+6/28
+
+Clean code
+
+No existe una definición única de código limpio, pero sı́ hay consenso en algunas cosas.
+
+7/28
+
+Clean code
+
+No existe una definición única de código limpio, pero sı́ hay consenso en algunas cosas.
+Trabajar con código limpio aumenta la productividad (en el mediano/largo plazo).
+
+7/28
+
+Clean code
+
+No existe una definición única de código limpio, pero sı́ hay consenso en algunas cosas.
+Trabajar con código limpio aumenta la productividad (en el mediano/largo plazo).
+Código sucio fomenta más código sucio.
+
+7/28
+
+Clean code
+
+No existe una definición única de código limpio, pero sı́ hay consenso en algunas cosas.
+Trabajar con código limpio aumenta la productividad (en el mediano/largo plazo).
+Código sucio fomenta más código sucio.
+Un código está limpio cuando alguien más es capaz de entenderlo fácilmente.
+
+7/28
+
+Clean code
+
+No existe una definición única de código limpio, pero sı́ hay consenso en algunas cosas.
+Trabajar con código limpio aumenta la productividad (en el mediano/largo plazo).
+Código sucio fomenta más código sucio.
+Un código está limpio cuando alguien más es capaz de entenderlo fácilmente.
+El primer paso para escribir código limpio es entender qué aspectos hacen que el
+código esté limpio (esto es fácil).
+
+7/28
+
+Clean code
+
+No existe una definición única de código limpio, pero sı́ hay consenso en algunas cosas.
+Trabajar con código limpio aumenta la productividad (en el mediano/largo plazo).
+Código sucio fomenta más código sucio.
+Un código está limpio cuando alguien más es capaz de entenderlo fácilmente.
+El primer paso para escribir código limpio es entender qué aspectos hacen que el
+código esté limpio (esto es fácil).
+El segundo paso es aprender a programar códigos limpios (esto es difı́cil).
+
+7/28
+
+8/28
+
+Names
+
+“Selecting names for variables, methods, and other entities is one of the most
+underrated aspects of software design.
+
+”
+– John Ousterhout
+
+9/28
+
+Names
+
+“Selecting names for variables, methods, and other entities is one of the most
+underrated aspects of software design. Good names are a form of documentation: they
+make code easier to understand. They reduce the need for other documentation and
+make it easier to detect errors.
+
+”
+– John Ousterhout
+
+9/28
+
+Names
+
+“Selecting names for variables, methods, and other entities is one of the most
+underrated aspects of software design. Good names are a form of documentation: they
+make code easier to understand. They reduce the need for other documentation and
+make it easier to detect errors. Conversely, poor name choices increase the complexity
+of code and create ambiguities and misunderstandings that can result in bugs.
+
+”
+– John Ousterhout
+
+9/28
+
+Names
+
+“Selecting names for variables, methods, and other entities is one of the most
+underrated aspects of software design. Good names are a form of documentation: they
+make code easier to understand. They reduce the need for other documentation and
+make it easier to detect errors. Conversely, poor name choices increase the complexity
+of code and create ambiguities and misunderstandings that can result in bugs. Name
+choice is an example of the principle that complexity is incremental.
+
+”
+– John Ousterhout
+
+9/28
+
+Names
+
+“Selecting names for variables, methods, and other entities is one of the most
+underrated aspects of software design. Good names are a form of documentation: they
+make code easier to understand. They reduce the need for other documentation and
+make it easier to detect errors. Conversely, poor name choices increase the complexity
+of code and create ambiguities and misunderstandings that can result in bugs. Name
+choice is an example of the principle that complexity is incremental. Choosing a
+mediocre name for a particular variable, as opposed to the best possible name,
+probably won’t have much impact on the overall complexity of a system. However,
+software systems have thousands of variables; choosing good names for all of these will
+have a significant impact on complexity and manageability.”
+– John Ousterhout
+
+9/28
+
+Names
+
+Malos nombres causan bugs
+
+10/28
+
+Names
+
+“The most challenging bug I ever fixed came about because
+of a poor name choice. In the late 1980’s and early 1990’s
+my graduate students and I created a distributed operating
+system called Sprite. At some point we noticed that files
+would occasionally lose data: one of the data blocks
+suddenly became all zeroes, even though the file had not
+been modified by a user.”
+
+John Ousterhout
+Stanford University
+11/28
+
+Names
+
+“The most challenging bug I ever fixed came about because
+of a poor name choice. In the late 1980’s and early 1990’s
+my graduate students and I created a distributed operating
+system called Sprite. At some point we noticed that files
+would occasionally lose data: one of the data blocks
+suddenly became all zeroes, even though the file had not
+been modified by a user.”
+
+John Ousterhout
+Stanford University
+
+“It took six months, but I eventually found and fixed the
+bug. The problem was actually quite simple (as are most
+bugs, once you figure them out).”
+
+11/28
+
+Names
+
+12/28
+
+Names
+
+“The file system code used the variable name
+block for two different purposes. In some
+situations, block referred to a physical block
+number on disk; in other situations, block
+referred to a logical block number within a file”
+
+12/28
+
+Names
+
+“The file system code used the variable name
+block for two different purposes. In some
+situations, block referred to a physical block
+number on disk; in other situations, block
+referred to a logical block number within a file”
+¡Seis meses costó encontrar el bug producto de
+un nombre poco descriptivo!
+
+12/28
+
+Names
+
+“The file system code used the variable name
+block for two different purposes. In some
+situations, block referred to a physical block
+number on disk; in other situations, block
+referred to a logical block number within a file”
+¡Seis meses costó encontrar el bug producto de
+un nombre poco descriptivo! ¡Seis meses!
+
+12/28
+
+Names
+
+“Unfortunately, most developers don’t spend much time thinking about names.
+
+13/28
+
+Names
+
+“Unfortunately, most developers don’t spend much time thinking about names. They
+tend to use the first name that comes to mind, as long as it’s reasonably close to
+matching the thing it names.
+
+13/28
+
+Names
+
+“Unfortunately, most developers don’t spend much time thinking about names. They
+tend to use the first name that comes to mind, as long as it’s reasonably close to
+matching the thing it names. For example, block is a pretty close match for both a
+physical block on disk and a logical block within a file; it’s certainly not a horrible
+name.
+
+13/28
+
+Names
+
+“Unfortunately, most developers don’t spend much time thinking about names. They
+tend to use the first name that comes to mind, as long as it’s reasonably close to
+matching the thing it names. For example, block is a pretty close match for both a
+physical block on disk and a logical block within a file; it’s certainly not a horrible
+name. Even so, it resulted in a huge expenditure of time to track down a subtle bug.
+
+13/28
+
+Names
+
+“Unfortunately, most developers don’t spend much time thinking about names. They
+tend to use the first name that comes to mind, as long as it’s reasonably close to
+matching the thing it names. For example, block is a pretty close match for both a
+physical block on disk and a logical block within a file; it’s certainly not a horrible
+name. Even so, it resulted in a huge expenditure of time to track down a subtle bug.
+Thus, you shouldn’t settle for names that are just “reasonably close.” Take a bit of
+extra time to choose great names, which are precise, unambiguous, and intuitive.
+
+13/28
+
+Names
+
+“Unfortunately, most developers don’t spend much time thinking about names. They
+tend to use the first name that comes to mind, as long as it’s reasonably close to
+matching the thing it names. For example, block is a pretty close match for both a
+physical block on disk and a logical block within a file; it’s certainly not a horrible
+name. Even so, it resulted in a huge expenditure of time to track down a subtle bug.
+Thus, you shouldn’t settle for names that are just “reasonably close.” Take a bit of
+extra time to choose great names, which are precise, unambiguous, and intuitive. The
+extra attention will pay for itself quickly, and over time you’ll learn to choose good
+names quickly.”
+
+13/28
+
+Names
+
+“Unfortunately, most developers don’t spend much time thinking about names. They
+tend to use the first name that comes to mind, as long as it’s reasonably close to
+matching the thing it names. For example, block is a pretty close match for both a
+physical block on disk and a logical block within a file; it’s certainly not a horrible
+name. Even so, it resulted in a huge expenditure of time to track down a subtle bug.
+Thus, you shouldn’t settle for names that are just “reasonably close.” Take a bit of
+extra time to choose great names, which are precise, unambiguous, and intuitive. The
+extra attention will pay for itself quickly, and over time you’ll learn to choose good
+names quickly.”
+Ahora veamos algunas reglas básicas para elegir buenos nombres.
+
+13/28
+
+Names
+Regla 1: Use Intention-Revealing Names.
+
+14/28
+
+Names
+Regla 1: Use Intention-Revealing Names.
+El nombre de una variable/función/clase debe responder las 3 grandes preguntas:
+1
+
+¿Por qué existe?
+
+2
+
+¿Qué hace?
+
+3
+
+¿Cómo se usa?
+
+14/28
+
+Names
+Regla 1: Use Intention-Revealing Names.
+El nombre de una variable/función/clase debe responder las 3 grandes preguntas:
+1
+
+¿Por qué existe?
+
+2
+
+¿Qué hace?
+
+3
+
+¿Cómo se usa?
+
+Ejemplo:
+2
+
+int d ; // elapsed time in days
+
+14/28
+
+Names
+Regla 1: Use Intention-Revealing Names.
+El nombre de una variable/función/clase debe responder las 3 grandes preguntas:
+1
+
+¿Por qué existe?
+
+2
+
+¿Qué hace?
+
+3
+
+¿Cómo se usa?
+
+Ejemplo:
+2
+
+int d ; // elapsed time in days
+
+Si necesita un comentario entonces es un mal nombre. d es un mal nombre porque no
+revela nada sobre la variable. No hace referencia ni a tiempo ni a dı́as.
+
+14/28
+
+Names
+Regla 1: Use Intention-Revealing Names.
+El nombre de una variable/función/clase debe responder las 3 grandes preguntas:
+1
+
+¿Por qué existe?
+
+2
+
+¿Qué hace?
+
+3
+
+¿Cómo se usa?
+
+Deberı́amos usar un nombre que especifique qué se está midiendo y en qué unidades.
+int
+int
+4 int
+5 int
+2
+3
+
+elaps edTime InDays ;
+daysS inceCr eation ;
+day s S i n c e M o d i fica tion ;
+fileAgeInDays ;
+
+14/28
+
+Names
+Regla 1: Use Intention-Revealing Names.
+¿Cuál es el propósito de este código?
+public List < int [] > getThem () {
+List < int [] > list1 = new ArrayList < int [] >() ;
+4
+foreach ( int [] x in theList )
+5
+if ( x [0] == 4)
+6
+list1 . add ( x ) ;
+7
+return list1 ;
+8 }
+2
+3
+
+15/28
+
+Names
+Regla 1: Use Intention-Revealing Names.
+He aquı́ el mismo código pero con mejores nombres.
+public List < int [] > getFlaggedCells () {
+List < int [] > flaggedCells = new ArrayList < int [] >() ;
+4
+foreach ( int [] cell in gameBoard )
+5
+if ( cell [ STATUS_VALUE ] == FLAGGED )
+6
+flaggedCells . add ( cell ) ;
+7
+return flaggedCells ;
+8 }
+2
+3
+
+¿Cuál es su propósito?
+
+16/28
+
+Names
+Regla 1: Use Intention-Revealing Names.
+El código lo podemos seguir mejorando si incluimos una clase Cell:
+public List < Cell > getFlaggedCells () {
+List < Cell > flaggedCells = new ArrayList < Cell >() ;
+4
+foreach ( Cell cell in gameBoard )
+5
+if ( cell . isFlagged () )
+6
+flaggedCells . add ( cell ) ;
+7
+return flaggedCells ;
+8 }
+2
+3
+
+16/28
+
+Names
+Regla 2: Avoid Disinformation.
+Ten cuidado con los nombres que puedan ser mal interpretados.
+
+17/28
+
+Names
+Regla 2: Avoid Disinformation.
+Ten cuidado con los nombres que puedan ser mal interpretados.
+Ejemplos:
+Los nombres nos dan una idea de la naturaleza de lo programado. Por ejemplo,
+accountList sugieren que la variable es de tipo List.
+1
+2
+
+public void StartRound ( Player attackinPlayer )
+{
+
+3
+4
+5
+
+}
+
+17/28
+
+Names
+Regla 2: Avoid Disinformation.
+Ten cuidado con los nombres que puedan ser mal interpretados.
+Ejemplos:
+Los nombres nos dan una idea de la naturaleza de lo programado. Por ejemplo,
+accountList sugieren que la variable es de tipo List.
+public void StartRound ( Player attackinPlayer )
+{
+3
+_view . WriteLine (
+4
+$ " Round { attackinPlayer . Round }: { attackinPlayer . ActiveUnit () .
+Name } ( Player { attackinPlayer . Id }) comienza " ) ;
+5 }
+1
+2
+
+17/28
+
+Names
+Regla 2: Avoid Disinformation.
+Ten cuidado con los nombres que puedan ser mal interpretados.
+Ejemplos:
+Nombres que varı́an en detalles chicos son fáciles de confundir:
+private List < string >
+G e t A l l H a n d C a r d s F r o m C u r r e n t T u r n P l a y e r I n S t r i n g F o r m a t () {...}
+2 private List < string >
+G e t A l l R i n g A r e a C a r d s F r o m C u r r e n t T u r n P l a y e r I n S t r i n g F o r m a t () () {...}
+3 private List < string >
+G e t A l l R i n g A r e a C a r d s F r o m O p p o s i t e T u r n P l a y e r I n S t r i n g F o r m a t () {...}
+4 private List < string >
+G e t A l l R i n g S i d e C a r d s F r o m O p p o s i t e T u r n P l a y e r I n S t r i n g F o r m a t () {...}
+1
+
+17/28
+
+Names
+Regla 2: Avoid Disinformation.
+Ten cuidado con los nombres que puedan ser mal interpretados.
+Ejemplos:
+Escribir conceptos similares de forma similar es información. Escribirlos
+inconsistentemente es desinformación.
+public string name ;
+public string _lastName ;
+3 private int _accountBalance ;
+4 private string _e ncriptedPassword ;
+1
+2
+
+17/28
+
+Names
+Regla 3: Make Meaningful Distinctions.
+
+18/28
+
+Names
+Regla 3: Make Meaningful Distinctions.
+Muchas veces damos nombres distintos a variables solo porque el compilador nos
+obliga.
+
+18/28
+
+Names
+Regla 3: Make Meaningful Distinctions.
+Muchas veces damos nombres distintos a variables solo porque el compilador nos
+obliga. En esos momentos, recurrimos a las siguientes malas prácticas:
+Números: a1, a2, a3, a4, ...
+
+18/28
+
+Names
+Regla 3: Make Meaningful Distinctions.
+Muchas veces damos nombres distintos a variables solo porque el compilador nos
+obliga. En esos momentos, recurrimos a las siguientes malas prácticas:
+Números: a1, a2, a3, a4, ...
+public static void copyChars ( char a1 [] , char a2 []) {
+for ( int i = 0; i < a1 . length ; i ++) {
+4
+a2 [ i ] = a1 [ i ];
+5
+}
+6 }
+2
+3
+
+18/28
+
+Names
+Regla 3: Make Meaningful Distinctions.
+Muchas veces damos nombres distintos a variables solo porque el compilador nos
+obliga. En esos momentos, recurrimos a las siguientes malas prácticas:
+Números: a1, a2, a3, a4, ...
+public static void copyChars ( char source [] , char destination []) {
+for ( int i = 0; i < source . length ; i ++) {
+4
+destination [ i ] = source [ i ];
+5
+}
+6 }
+2
+3
+
+18/28
+
+Names
+Regla 3: Make Meaningful Distinctions.
+Muchas veces damos nombres distintos a variables solo porque el compilador nos
+obliga. En esos momentos, recurrimos a las siguientes malas prácticas:
+Números: a1, a2, a3, a4, ...
+Sinónimos: Tenemos las clases Product, ProductInfo y ProductData.
+
+19/28
+
+Names
+Regla 3: Make Meaningful Distinctions.
+Muchas veces damos nombres distintos a variables solo porque el compilador nos
+obliga. En esos momentos, recurrimos a las siguientes malas prácticas:
+Números: a1, a2, a3, a4, ...
+Sinónimos: Tenemos las clases Product, ProductInfo y ProductData.
+Esto también afecta a los nombres de métodos (este es un ejemplo real):
+getActiveAccount(), getActiveAccounts() y getActiveAccountInfo().
+
+19/28
+
+Names
+Regla 3: Make Meaningful Distinctions.
+Muchas veces damos nombres distintos a variables solo porque el compilador nos
+obliga. En esos momentos, recurrimos a las siguientes malas prácticas:
+Números: a1, a2, a3, a4, ...
+Sinónimos: Tenemos las clases Product, ProductInfo y ProductData.
+Esto también afecta a los nombres de métodos (este es un ejemplo real):
+getActiveAccount(), getActiveAccounts() y getActiveAccountInfo().
+En resumen, que las distinciones que hagas entre nombres sean significativas.
+
+19/28
+
+Names
+Regla 4: Use Searchable Names
+Un problema que surge cuando nombramos variables usando una letra o ponemos
+números en nuestro código es que cuesta encontrar sus apariciones en el código.
+Ejemplo:
+for ( int j = 0; j < 34; j ++) {
+s += t [ j ]*4 / 5;
+4 }
+2
+3
+
+20/28
+
+Names
+Regla 4: Use Searchable Names
+Un problema que surge cuando nombramos variables usando una letra o ponemos
+números en nuestro código es que cuesta encontrar sus apariciones en el código.
+Ejemplo:
+for ( int j = 0; j < 34; j ++) {
+s += t [ j ]*4 / 5;
+4 }
+2
+3
+
+20/28
+
+Names
+Regla 4: Use Searchable Names
+Un problema que surge cuando nombramos variables usando una letra o ponemos
+números en nuestro código es que cuesta encontrar sus apariciones en el código.
+Ejemplo:
+int rea lD a y sP e r Id ealDay = 4;
+const int WorkDaysPerWeek = 5;
+4 int sum = 0;
+5 for ( int j =0; j < NumberOfTasks ; j ++) {
+6
+int realTaskDays = taskEstimate [ j ] * realDaysPerIdealDay ;
+7
+int realTaskWeeks = realdays / WorkDaysPerWeek ;
+8
+sum += realTaskWeeks ;
+9 }
+2
+3
+
+Aquı́ los nombres de variables y constantes son fáciles de buscar.
+20/28
+
+Names
+
+Regla 5: Class Names and Method Names
+Clases, variables, atributos y objetos deben ser nombrados sustantivos o frases
+sustantivas. No uses verbos
+public static class PrintAttributes
+{
+3
+public static void Print ( Character character , View view ) {...}
+4 }
+1
+2
+
+21/28
+
+Names
+
+Regla 5: Class Names and Method Names
+Métodos deben ser nombrados usando verbos o frases verbales. No deben ser
+sustantivos
+1
+
+public void AttackResult ( int damage , Unit attackinUnit , Unit
+defendingUnit ) {...}
+
+1
+
+public void Winner ( Player winner ) {...}
+
+1
+
+public void DamageDealt ( int damage ) {...}
+
+21/28
+
+Names
+
+Regla 6: Pick One Word per Concept.
+Elige una palabra por concepto abstracto y úsala de manera consistente.
+
+22/28
+
+Names
+
+Regla 6: Pick One Word per Concept.
+Elige una palabra por concepto abstracto y úsala de manera consistente.
+Para obtener valores no uses fetch, retrieve y get. Cásate con uno y se le fiel.
+Lo mismo ocurre con controller, manager y driver.
+
+22/28
+
+Names
+
+Regla 6: Pick One Word per Concept.
+Elige una palabra por concepto abstracto y úsala de manera consistente.
+Para obtener valores no uses fetch, retrieve y get. Cásate con uno y se le fiel.
+Lo mismo ocurre con controller, manager y driver.
+Regla 7: Don’t Pun.
+Pero no uses la misma palabra para dos propósitos distinto.
+
+22/28
+
+Names
+
+Regla 6: Pick One Word per Concept.
+Elige una palabra por concepto abstracto y úsala de manera consistente.
+Para obtener valores no uses fetch, retrieve y get. Cásate con uno y se le fiel.
+Lo mismo ocurre con controller, manager y driver.
+Regla 7: Don’t Pun.
+Pero no uses la misma palabra para dos propósitos distinto.
+Usar block para bloques fı́sicos y bloques lógicos causa bugs que toman 6 meses
+en ser descubiertos.
+
+22/28
+
+Names
+
+Regla 8: Use Solution Domain Names.
+De ser posible, usa términos computines estándares para nombrar algoritmos, patrones,
+estructuras de datos, etc. Recuerda que el código será leı́do por programadores.
+BinaryTree, Dijkstra, JobQueue, AccountVisitor, etc...
+
+23/28
+
+Names
+
+Regla 8: Use Solution Domain Names.
+De ser posible, usa términos computines estándares para nombrar algoritmos, patrones,
+estructuras de datos, etc. Recuerda que el código será leı́do por programadores.
+BinaryTree, Dijkstra, JobQueue, AccountVisitor, etc...
+Regla 9: Use Problem Domain Names.
+Cuando no exista un término computı́n para lo que está haciendo, usa nombres que
+hagan referencia al dominio del problema que estás resolviendo.
+Units, Damage, Bonus, Penalty, etc..
+
+23/28
+
+Names
+Regla 10: Add Meaningful Context.
+
+24/28
+
+Names
+Regla 10: Add Meaningful Context.
+Por lo general los nombres no son suficientemente explicativos por sı́ solos – debemos
+situarlos en un contexto apropiado. Estos contextos son clases, funciones o
+namespaces que tienen buenos nombres.
+Ejemplo:
+El significado de una variable llamada state es ambigua por si sola.
+
+24/28
+
+Names
+Regla 10: Add Meaningful Context.
+Por lo general los nombres no son suficientemente explicativos por sı́ solos – debemos
+situarlos en un contexto apropiado. Estos contextos son clases, funciones o
+namespaces que tienen buenos nombres.
+Ejemplo:
+El significado de una variable llamada state es ambigua por si sola.
+Tal vez un mejor nombre serı́a addrState pues deja explı́cito que se refiere a una
+dirección.
+
+24/28
+
+Names
+Regla 10: Add Meaningful Context.
+Por lo general los nombres no son suficientemente explicativos por sı́ solos – debemos
+situarlos en un contexto apropiado. Estos contextos son clases, funciones o
+namespaces que tienen buenos nombres.
+Ejemplo:
+El significado de una variable llamada state es ambigua por si sola.
+Tal vez un mejor nombre serı́a addrState pues deja explı́cito que se refiere a una
+dirección. Lo que implica que también existen las variables addrFirstName,
+addrLastName, addrStreet, addrHouseNumber, addrCity y addrZipcode.
+
+24/28
+
+Names
+Regla 10: Add Meaningful Context.
+Por lo general los nombres no son suficientemente explicativos por sı́ solos – debemos
+situarlos en un contexto apropiado. Estos contextos son clases, funciones o
+namespaces que tienen buenos nombres.
+Ejemplo:
+public class Address
+{
+3
+private string _firstName ;
+4
+private string _lastName ;
+5
+private string _street ;
+6
+private int _houseNumber ;
+7
+private string _city ;
+8
+private string _state ;
+9
+private string _zipcode ;
+10 }
+1
+2
+
+24/28
+
+Names
+Regla 10: Add Meaningful Context.
+Por lo general los nombres no son suficientemente explicativos por sı́ solos – debemos
+situarlos en un contexto apropiado. Estos contextos son clases, funciones o
+namespaces que tienen buenos nombres.
+Regla 11: Don’t Add Gratuitous Context.
+
+24/28
+
+Names
+Regla 10: Add Meaningful Context.
+Por lo general los nombres no son suficientemente explicativos por sı́ solos – debemos
+situarlos en un contexto apropiado. Estos contextos son clases, funciones o
+namespaces que tienen buenos nombres.
+Regla 11: Don’t Add Gratuitous Context.
+Nombres cortos son mejores que nombres largos, siempre y cuando sus significados
+sean claros. No agregues contexto a nombres si no lo necesita.
+
+24/28
+
+Names
+Regla 10: Add Meaningful Context.
+Por lo general los nombres no son suficientemente explicativos por sı́ solos – debemos
+situarlos en un contexto apropiado. Estos contextos son clases, funciones o
+namespaces que tienen buenos nombres.
+Regla 11: Don’t Add Gratuitous Context.
+Nombres cortos son mejores que nombres largos, siempre y cuando sus significados
+sean claros. No agregues contexto a nombres si no lo necesita.
+Ejemplo:
+Dentro de un clase Address llamar a un atributo addrState es innecesario.
+Basta con llamarlo state – que es igual de informativo y más corto.
+
+24/28
+
+Names
+
+Resumen:
+
+25/28
+
+Names
+
+Resumen:
+Dedica tiempo y cariño a elegir buenos nombres
+para tus clases, métodos y variables.
+
+25/28
+
+Names
+
+Resumen:
+Dedica tiempo y cariño a elegir buenos nombres
+para tus clases, métodos y variables.
+Un nombre es bueno si hace que entender tu código
+sea más fácil.
+
+25/28
+
+Names
+
+Resumen:
+Dedica tiempo y cariño a elegir buenos nombres
+para tus clases, métodos y variables.
+Un nombre es bueno si hace que entender tu código
+sea más fácil.
+Un nombre es malo si no te dice nada.
+
+25/28
+
+Names
+
+Resumen:
+Dedica tiempo y cariño a elegir buenos nombres
+para tus clases, métodos y variables.
+Un nombre es bueno si hace que entender tu código
+sea más fácil.
+Un nombre es malo si no te dice nada.
+Y un nombre es muy malo si te hace pensar que el
+código está haciendo algo distinto.
+
+25/28
+
+¿Cuáles son los descuentos tı́picos
+en el proyecto debido al cap. 2?
+
+26/28
+
+Names
+
+Descuentos más comunes:
+Nombres poco descriptivos.
+Métodos con nombres muy similares que hacen cosas distintas.
+Nombres de métodos que no son verbos o frases verbales (acciones).
+Nombres de clases/variables que no son sustantivos.
+No encapsular constantes (i.e., tener números o strings sueltos en el código).
+Ser inconsistente en cómo se nombran las cosas:
+Usar distintos nombres para el mismo concepto (e.j., get, fetch, retrieve).
+Escribir cosas similares de forma distinta (e.j., atributos publicos con y sin )
+Recomendamos seguir las convenciones de nombres en C#.
+
+27/28
+
+Names
+
+Kind
+
+Rule
+
+Private field
+Public field
+Protected field
+Internal field
+Property
+Method
+Class
+Interface
+Local variable
+Parameter
+
+lowerCamelCase
+UpperCamelCase
+UpperCamelCase
+UpperCamelCase
+UpperCamelCase
+UpperCamelCase
+UpperCamelCase
+IUpperCamelCase
+lowerCamelCase
+lowerCamelCase
+
+28/28
+
+

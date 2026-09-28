@@ -1,0 +1,853 @@
+Pontificia Universidad Católica de Chile
+Escuela de Ingenierı́a
+Departamento de Ciencia de la Computación
+
+Clase 03: Clean Code (Cap. 3)
+Francisco Gazitúa Requena (fco gazitua requena@uc.cl)
+IIC2113 Diseño Detallado de Software
+
+13 de Agosto, 2026
+
+1/19
+
+Functions
+
+¿Por qué usamos funciones mientras programamos?
+
+2/19
+
+Functions
+
+¿Por qué usamos funciones mientras programamos?
+IIC1103: Para evitar copiar y pegar código.
+
+2/19
+
+Functions
+
+¿Por qué usamos funciones mientras programamos?
+IIC1103: Para evitar copiar y pegar código.
+IIC2113: Para que nuestro código sea más fácil de entender.
+
+2/19
+
+Functions
+
+¿Por qué usamos funciones mientras programamos?
+IIC1103: Para evitar copiar y pegar código.
+IIC2113: Para que nuestro código sea más fácil de entender.
+
+Observación brillante
+Códigos cortos son más fáciles de entender que códigos largos. Por lo tanto, usar
+funciones cortas hace que tu código sea más fácil de entender.
+
+2/19
+
+Functions
+¿Qué tan pequeña deberı́a ser una función?
+Ojalá entre 4 y 5 lı́neas.
+A lo más uno o dos niveles de indentación (e.j., un if dentro de un while).
+Que tu función tenga un nombre apropiado.
+
+3/19
+
+Functions
+¿Qué tan pequeña deberı́a ser una función?
+Ojalá entre 4 y 5 lı́neas.
+A lo más uno o dos niveles de indentación (e.j., un if dentro de un while).
+Que tu función tenga un nombre apropiado.
+Ejemplo:
+public List < Cell > GetFlaggedCells () {
+List < Cell > flaggedCells = new ArrayList < Cell >() ;
+3
+foreach ( Cell cell in gameBoard )
+4
+if ( cell . isFlagged () )
+5
+flaggedCells . add ( cell ) ;
+6
+return flaggedCells ;
+7 }
+1
+2
+
+3/19
+
+Functions
+Programar funciones pequeñas nos ayuda a cumplir con uno de los mandamientos más
+importantes de clean code:
+
+4/19
+
+Functions
+Programar funciones pequeñas nos ayuda a cumplir con uno de los mandamientos más
+importantes de clean code:
+FUNCTIONS SHOULD DO ONE THING.
+THEY SHOULD DO IT WELL.
+THEY SHOULD DO IT ONLY.
+
+4/19
+
+Functions
+Programar funciones pequeñas nos ayuda a cumplir con uno de los mandamientos más
+importantes de clean code:
+FUNCTIONS SHOULD DO ONE THING.
+THEY SHOULD DO IT WELL.
+THEY SHOULD DO IT ONLY.
+¿Por qué es recomendable que una función haga una sola cosa?
+
+4/19
+
+Functions
+Programar funciones pequeñas nos ayuda a cumplir con uno de los mandamientos más
+importantes de clean code:
+FUNCTIONS SHOULD DO ONE THING.
+THEY SHOULD DO IT WELL.
+THEY SHOULD DO IT ONLY.
+¿Por qué es recomendable que una función haga una sola cosa?
+Entender una cosa es más fácil que entender dos cosas.
+Es más fácil reutilizar funciones que hacen una sola cosa.
+Previene la existencia de efectos secundarios inesperados.
+
+4/19
+
+Functions
+Ejemplo:
+public bool CheckPassword ( String userName , String password ) {
+User user = UserGateway . findByName ( userName ) ;
+3
+if ( user != User . NULL ) {
+4
+String codedPhrase = user . g e t P h r a s e E n c o d e d B y P a s s w o r d () ;
+5
+String phrase = cryptographer . decrypt ( codedPhrase , password ) ;
+6
+if ( " Valid Password " . equals ( phrase ) ) {
+7
+Session . initialize () ;
+8
+return true ;
+9
+}
+10
+}
+11
+return false ;
+12 }
+1
+2
+
+¿Alguien ve algún problema con esta función?
+5/19
+
+Functions
+Command Query Separation
+“Functions should either do something or answer something, but not both.”
+
+6/19
+
+Functions
+Command Query Separation
+“Functions should either do something or answer something, but not both.”
+Ejemplo: Digamos que tenemos el siguiente método:
+1
+
+public bool Set ( string attribute , string value ) ;
+
+6/19
+
+Functions
+Command Query Separation
+“Functions should either do something or answer something, but not both.”
+Ejemplo: Digamos que tenemos el siguiente método:
+1
+
+public bool Set ( string attribute , string value ) ;
+
+Luego, usar el método se verá más o menos ası́:
+if ( Set ( " username " , " unclebob " ) )
+{
+5
+// ... etc
+6 }
+3
+4
+
+¿Qué significa esto?
+6/19
+
+Functions
+Command Query Separation
+“Functions should either do something or answer something, but not both.”
+Solución: Separar en dos métodos distintos (donde cada uno haga una cosa).
+8
+9
+
+public bool AttributeExists ( string attribute ) ;
+public void SetAttribute ( string attribute , string value ) ;
+
+6/19
+
+Functions
+Command Query Separation
+“Functions should either do something or answer something, but not both.”
+Solución: Separar en dos métodos distintos (donde cada uno haga una cosa).
+8
+9
+
+public bool AttributeExists ( string attribute ) ;
+public void SetAttribute ( string attribute , string value ) ;
+
+Ahora es trivial entender el código que usa estos métodos:
+if ( AttributeExists ( " username " ) ) {
+SetAttribute ( " username " , " unclebob " ) ;
+13
+// ... etc
+14 }
+11
+12
+
+6/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+
+7/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+
+7/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+
+Mini-Actividad: Piensa como limpiar la función DoTheThing(...)
+7/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+
+Mini-Actividad: Piensa como limpiar la función DoTheThing(...)
+7/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+
+Mini-Actividad: Piensa como limpiar la función DoTheThing(...)
+7/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+
+Mini-Actividad: Piensa como limpiar la función DoTheThing(...)
+7/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+
+Mini-Actividad: Piensa como limpiar la función DoTheThing(...)
+7/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+
+Mini-Actividad: Piensa como limpiar la función DoTheThing(...)
+7/19
+
+1 public int [] DoTheThing ( int mv ) { // MaxValue
+2
+if ( mv >= 2) { // the only valid case
+3
+// declarations
+4
+int s = mv + 1; // size of array
+5
+bool [] f = new bool [ s ];
+6
+int i ;
+7
+// initialize array to true .
+8
+for ( i = 0; i < s ; i ++)
+9
+f [ i ] = true ;
+10
+// get rid of known non - primes
+11
+f [0] = f [1] = false ;
+12
+// sieve
+13
+int j ;
+14
+for ( i = 2; i < Math . Sqrt ( s ) + 1; i ++) {
+15
+if ( f [ i ]) { // if i is uncrossed , cross its multiples .
+16
+for ( j = 2 * i ; j < s ; j += i )
+17
+f [ j ] = false ; // multiple is not prime
+18
+}
+19
+}
+20
+int c = 0; // how many primes are there ?
+21
+for ( i = 0; i < s ; i ++) {
+22
+if ( f [ i ])
+23
+c ++; // bump count .
+24
+}
+25
+int [] ret = new int [ c ];
+26
+// move the primes into the result
+27
+for ( i = 0 , j = 0; i < s ; i ++) {
+28
+if ( f [ i ])
+// if prime
+29
+ret [ j ++] = i ;
+30
+}
+31
+return ret ; // return the primes
+32
+}
+33
+else // maxValue < 2
+34
+return new int [0]; // return null array if bad input .
+
+8/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+public int [] GeneratePrimes ( int maxValue ) {
+if ( maxValue >= 2) { // the only valid case
+4
+// declarations
+5
+int s = maxValue + 1; // size of array
+6
+bool [] f = new bool [ s ];
+7
+int i ;
+8
+// initialize array to true .
+9
+for ( i = 0; i < s ; i ++)
+10
+f [ i ] = true ;
+11
+// get rid of known non - primes
+12
+f [0] = f [1] = false ;
+13
+/* ... */
+14
+}
+15
+else // maxValue < 2
+16
+return new int [0]; // return null array if bad input .
+17 }
+2
+3
+
+9/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+public int [] GeneratePrimes ( int maxValue ) {
+if ( maxValue < 2)
+3
+return new int [0];
+4
+else {
+5
+U n c ro s s In tegersUpTo ( maxValue ) ;
+6
+Cross OutMultiples () ;
+7
+P u t U n c r o s s e d I n t e g e r s I n t o R e s u l t () ;
+8
+return _result ;
+9
+}
+10 }
+1
+2
+
+9/19
+
+Functions
+¿Cómo logro que mis funciones hagan una sola cosa?
+Extrae funciones de tu función hasta que ya no tenga sentido seguir extrayendo.
+public int [] GeneratePrimes ( int maxValue ) {
+if ( maxValue < 2)
+3
+return new int [0];
+4
+else {
+5
+U n c ro s s In tegersUpTo ( maxValue ) ;
+6
+Cross OutMultiples () ;
+7
+P u t U n c r o s s e d I n t e g e r s I n t o R e s u l t () ;
+8
+return _result ;
+9
+}
+10 }
+1
+2
+
+¡Momento! En este caso la función nos quedó más corta, pero técnicamente ambas
+funciones están haciendo exactamente lo mismo (generar números primos). ¿Por qué
+la segunda versión cumple con hacer una cosa y la primera no?
+9/19
+
+Functions
+“If a function does only those steps that are one level below the stated name of the
+function, then the function is doing one thing. After all, the reason we write functions
+is to decompose a larger concept (in other words, the name of the function) into a set
+of steps at the next level of abstraction.”
+
+10/19
+
+Functions
+“If a function does only those steps that are one level below the stated name of the
+function, then the function is doing one thing. After all, the reason we write functions
+is to decompose a larger concept (in other words, the name of the function) into a set
+of steps at the next level of abstraction.”
+public int [] GeneratePrimes ( int maxValue ) {
+if ( maxValue < 2)
+3
+return new int [0];
+4
+else {
+5
+U n c ro s s In tegersUpTo ( maxValue ) ;
+6
+Cross OutMultiples () ;
+7
+P u t U n c r o s s e d I n t e g e r s I n t o R e s u l t () ;
+8
+return _result ;
+9
+}
+10 }
+1
+2
+
+10/19
+
+Functions
+“If a function does only those steps that are one level below the stated name of the
+function, then the function is doing one thing. After all, the reason we write functions
+is to decompose a larger concept (in other words, the name of the function) into a set
+of steps at the next level of abstraction.”
+public int [] GeneratePrimes ( int maxValue ) {
+if ( maxValue < 2)
+3
+return new int [0];
+4
+else {
+5
+U n c ro s s In tegersUpTo ( maxValue ) ;
+6
+Cross OutMultiples () ;
+7
+P u t U n c r o s s e d I n t e g e r s I n t o R e s u l t () ;
+8
+return _result ;
+9
+}
+10 }
+1
+2
+
+Spoiler del cap. 5: Las definiciones de las funciones llamadas deberı́an aparecer abajo
+de GeneratePrimes para que podamos leer el código de arriba hacia abajo.
+
+10/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Por qué será buena idea usar funciones con pocos argumentos?
+
+11/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Por qué será buena idea usar funciones con pocos argumentos?
+Ejemplo: Si el retorno de la función es verdadero
+1
+2
+
+if ( H a s D a m a g e M o d i f i e r O v e r R i v a l ( attacker , defender ) )
+// ...
+
+... ¿Quién tiene el modificador?
+
+11/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Por qué será buena idea usar funciones con pocos argumentos?
+Ejemplo: Si el retorno de la función es verdadero
+1
+2
+
+if ( H a s D a m a g e M o d i f i e r O v e r R i v a l ( attacker , defender ) )
+// ...
+
+... ¿Quién tiene el modificador?
+Pero si eliminamos un argumento entender (y usar) la función se vuelve más fácil:
+1
+2
+
+if ( attacker . H a s D a m a g e M o d i f i e r O v e r R i v a l ( defender ) )
+// ...
+
+11/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Por qué será buena idea usar funciones con pocos argumentos?
+Ejemplo: Si el retorno de la función es verdadero
+1
+2
+
+if ( H a s D a m a g e M o d i f i e r O v e r R i v a l ( attacker , defender ) )
+// ...
+
+... ¿Quién tiene el modificador?
+Pero si eliminamos un argumento entender (y usar) la función se vuelve más fácil:
+1
+2
+
+if ( attacker . H a s D a m a g e M o d i f i e r O v e r R i v a l ( defender ) )
+// ...
+
+En general, mientras menos argumentos tiene una función es más fácil de entender.
+
+11/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Cómo podemos minimizar la cantidad de argumentos que reciben nuestras funciones?
+
+12/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Cómo podemos minimizar la cantidad de argumentos que reciben nuestras funciones?
+Opción 1: Transformar argumentos en atributos.
+public class GeneratePrimes {
+/* ... */
+4
+private void CrossOutMultiplesOf ( bool [] crossedOut , int i )
+5
+{
+6
+for ( int multiple = 2* i ;
+7
+multiple < crossedOut . Length ;
+8
+multiple += i )
+9
+crossedOut [ multiple ] = true ;
+10
+}
+11
+/* ... */
+12 }
+2
+3
+
+12/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Cómo podemos minimizar la cantidad de argumentos que reciben nuestras funciones?
+Opción 1: Transformar argumentos en atributos.
+public class GeneratePrimes {
+private bool [] _crossedOut ;
+4
+/* ... */
+5
+private void CrossOutMultiplesOf ( int i )
+6
+{
+7
+for ( int multiple = 2* i ;
+8
+multiple < crossedOut . Length ;
+9
+multiple += i )
+10
+_crossedOut [ multiple ] = true ;
+11
+}
+12 }
+2
+3
+
+12/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Cómo podemos minimizar la cantidad de argumentos que reciben nuestras funciones?
+Opción 2: Agrupar argumentos en un objeto apropiado.
+Circle makeCircle(double x, double y, double radius)
+
+12/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Cómo podemos minimizar la cantidad de argumentos que reciben nuestras funciones?
+Opción 2: Agrupar argumentos en un objeto apropiado.
+Circle makeCircle(double x, double y, double radius)
+Circle makeCircle(Point center, double radius)
+
+12/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Cómo podemos minimizar la cantidad de argumentos que reciben nuestras funciones?
+Opción 2: Agrupar argumentos en un objeto apropiado.
+Circle makeCircle(double x, double y, double radius)
+Circle makeCircle(Point center, double radius)
+Opción 3: Si un argumento es un flag booleano, lo deberı́as separar en dos métodos.
+render(bool isSuite)
+
+12/19
+
+Functions
+Lo otro importante es minimizar la cantidad de argumentos en tus funciones.
+Cero argumentos es lo ideal, luego uno, luego dos, casi nunca 3. Nunca más de 3.
+¿Cómo podemos minimizar la cantidad de argumentos que reciben nuestras funciones?
+Opción 2: Agrupar argumentos en un objeto apropiado.
+Circle makeCircle(double x, double y, double radius)
+Circle makeCircle(Point center, double radius)
+Opción 3: Si un argumento es un flag booleano, lo deberı́as separar en dos métodos.
+render(bool isSuite)
+renderForSuite() y renderForSingleTest().
+
+12/19
+
+Functions
+Finalmente, evita a toda costa tener código duplicado.
+
+13/19
+
+Functions
+Finalmente, evita a toda costa tener código duplicado.
+Ejemplo: ¿Cual es el problema aquı́?
+public bool C h e c k I f C h i l d r e n S u m M o r e T h a n L i m i t ( Node tree , int limit )
+{
+3
+int sum = 0;
+4
+foreach ( var node in tree . Children )
+5
+sum += node . Value ;
+6
+return sum > limit ;
+7 }
+1
+2
+
+public bool C h e c k I f C h i l d r e n S u m L e s s T h a n L i m i t ( Node tree , int limit )
+{
+3
+int sum = 0;
+4
+foreach ( var node in tree . Children )
+5
+sum += node . Value ;
+6
+return sum < limit ;
+7 }
+1
+2
+
+13/19
+
+Functions
+No repetir código es mucho más fácil de mantener
+1
+2
+
+public bool C h e c k I f C h i l d r e n S u m M o r e T h a n L i m i t ( Node tree , int limit )
+= > return GetChildrenSum ( tree ) > limit ;
+
+3
+4
+5
+
+public bool C h e c k I f C h i l d r e n S u m L e s s T h a n L i m i t ( Node tree , int limit )
+= > return GetChildrenSum ( tree ) < limit ;
+
+6
+
+private bool GetChildrenSum ( Node tree )
+{
+9
+int sum = 0;
+10
+foreach ( var node in tree . Children )
+11
+sum += node . Value ;
+12
+return sum ;
+13 }
+7
+8
+
+14/19
+
+Functions
+
+Algunas otras reglas:
+
+15/19
+
+Functions
+
+Algunas otras reglas:
+No deberı́amos tener argumentos que funcionen como output.
+
+15/19
+
+Functions
+
+Algunas otras reglas:
+No deberı́amos tener argumentos que funcionen como output.
+Las funciones deben cambiar el estado interno de un objeto o retornar información
+sobre un objeto, no ambas.
+
+15/19
+
+Functions
+
+Algunas otras reglas:
+No deberı́amos tener argumentos que funcionen como output.
+Las funciones deben cambiar el estado interno de un objeto o retornar información
+sobre un objeto, no ambas.
+Lancen excepciones en vez de retornar código de error.
+
+15/19
+
+Functions
+
+Algunas otras reglas:
+No deberı́amos tener argumentos que funcionen como output.
+Las funciones deben cambiar el estado interno de un objeto o retornar información
+sobre un objeto, no ambas.
+Lancen excepciones en vez de retornar código de error.
+Manejo de error es una tarea.
+
+15/19
+
+Functions
+
+Algunas otras reglas:
+No deberı́amos tener argumentos que funcionen como output.
+Las funciones deben cambiar el estado interno de un objeto o retornar información
+sobre un objeto, no ambas.
+Lancen excepciones en vez de retornar código de error.
+Manejo de error es una tarea.
+Control de flujo es una tarea.
+
+15/19
+
+Functions
+
+Resumen:
+“When I write functions, they come out long and complicated. They have lots of
+indenting and nested loops. They have long argument lists. The names are arbitrary,
+and there is duplicated code. But I also have a suite of unit tests that cover every one
+of those clumsy lines of code.”
+
+16/19
+
+Functions
+
+Resumen:
+“When I write functions, they come out long and complicated. They have lots of
+indenting and nested loops. They have long argument lists. The names are arbitrary,
+and there is duplicated code. But I also have a suite of unit tests that cover every one
+of those clumsy lines of code.”
+“So then I massage and refine that code, splitting out functions, changing names,
+eliminating duplication. I shrink the methods and reorder them. Sometimes I break out
+whole classes, all the while keeping the tests passing.”
+
+16/19
+
+Functions
+
+Resumen:
+“When I write functions, they come out long and complicated. They have lots of
+indenting and nested loops. They have long argument lists. The names are arbitrary,
+and there is duplicated code. But I also have a suite of unit tests that cover every one
+of those clumsy lines of code.”
+“So then I massage and refine that code, splitting out functions, changing names,
+eliminating duplication. I shrink the methods and reorder them. Sometimes I break out
+whole classes, all the while keeping the tests passing.”
+“In the end, I wind up with functions that follow the rules I’ve laid down in this
+chapter. I don’t write them that way to start. I don’t think anyone could.”
+
+16/19
+
+¿Cuáles son los descuentos tı́picos
+en el proyecto debido al cap. 3?
+
+17/19
+
+Functions
+
+Descuentos más comunes:
+Funciones largas (o que hacen más de una cosa).
+Funciones con más de 3 argumentos.
+Funciones con output arguments.
+Bloques de código duplicado (que pudieron ser una función).
+Funciones que reciben booleanos (o similar).
+Funciones con más de dos niveles de indentación.
+Condiciones complejas en ifs/whiles que debieron ser pasados a una función (con
+un buen nombre) que retorne un booleano.
+
+18/19
+
+Actividad
+
+19/19
+
+
