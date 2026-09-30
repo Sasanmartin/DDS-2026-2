@@ -8,12 +8,7 @@ public class PassiveSkillFactory
         ["Elemental Augmentation"] = () => new ElementalAugmentationPassive(),
         ["Hale and Hearty"] = () => new HaleAndHeartyPassive(),
         ["Fleefoot"] = () => new FleefootPassive(),
-        ["Inner Strength"] = () => new InnerStrengthPassive(),
-        ["Vim and Vigor"] = () => new VimAndVigorPassive(),
-        ["Second Wind"] = () => new SecondWindPassive(),
-        ["Patience"] = () => new PatiencePassive(),
-        ["Boost Start"] = () => new BoostStartPassive(),
-        ["Stat Swap"] = () => new StatSwapPassive()
+        ["Inner Strength"] = () => new InnerStrengthPassive()
     };
 
     public PassiveSkill Create(string name)

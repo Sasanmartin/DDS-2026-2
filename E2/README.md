@@ -3,8 +3,8 @@
 **Integrante:** Sebastián San Martín Ibacache
 
 Implementación de las acciones **Usar Habilidad** y **Defender**, junto con
-habilidades activas y pasivas de viajeros y habilidades de bestias, el sistema
-de **debilidades** y **Breaking Point**, y el **bonus E3**.
+habilidades activas y pasivas de viajeros y habilidades de bestias, y el
+sistema de **debilidades** y **Breaking Point**.
 
 ## Estructura
 
@@ -44,12 +44,6 @@ dotnet test --filter "FullyQualifiedName~TestE2"   # E2: 207 tests
 - Curación, revivir y habilidades de cola de turnos (Spearhead, Leghold Trap), respetando
   el orden de anuncios de múltiples objetivos del enunciado.
 
-## Bonus E3
-
-- Boosting en ataque básico: 1 golpe + 1 por BP (máx. 3); quien usa boosting no recibe BP
-  al final de la ronda.
-- Pasivas: `Vim and Vigor`, `Second Wind`, `Patience`, `Boost Start`, `Stat Swap`.
-
 ## Arquitectura
 
 - **Polimorfismo por composición** para habilidades: `ITargetSelector`, `ISkillEffect`,
@@ -64,7 +58,7 @@ dotnet test --filter "FullyQualifiedName~TestE2"   # E2: 207 tests
 - El uso de BP en habilidades no se evalúa en esta entrega (sí el menú y su validación).
 - `HP Thief` implementado como 2 golpes de Dagger, sin el robo de vida: no está en la
   lista de habilidades de E2 ni se ejercita en los tests.
-- Los grupos E3/E4 fuera del bonus quedan fuera del alcance de esta entrega.
+- Los grupos E3/E4 quedan fuera del alcance de esta entrega.
 - `Tests.cs` y el `.csproj` del proyecto de tests **no se modificaron**.
 
 ## Uso de herramientas de IA

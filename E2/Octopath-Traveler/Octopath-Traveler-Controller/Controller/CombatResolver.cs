@@ -16,11 +16,9 @@ public class CombatResolver
 
     public IReadOnlyList<SkillOutcome> ResolveBasicAttack(Traveler traveler, BasicAttackRequest request)
     {
-        traveler.ConsumeBoostPoints(request.BoostPoints);
-
         DamageProfile profile = new()
         {
-            Hits = AttackType.FromName(request.Weapon).Repeat(1 + request.BoostPoints),
+            Hits = new[] { AttackType.FromName(request.Weapon) },
             Modifier = BasicAttackModifier
         };
         return ApplyDamage(traveler, request.Target, profile);

@@ -8,12 +8,6 @@ public abstract class PassiveSkill
     public string Name { get; }
 
     public abstract void ApplyTo(Stats stats);
-
-    public virtual void OnRoundEnd(Traveler bearer) { }
-
-    public virtual bool GrantsExtraTurn(Traveler bearer) => false;
-
-    public virtual void OnCombatStart(Traveler bearer) { }
 }
 
 public abstract class StatBoostPassive : PassiveSkill

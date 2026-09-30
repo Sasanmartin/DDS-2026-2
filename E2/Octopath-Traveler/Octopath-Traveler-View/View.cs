@@ -2,7 +2,7 @@
 
 public class View
 {
-    // Todos los textos deben coincidir exactamente con los guiones de test del curso.
+    // Todos los textos deben coincidir exactamente con los de los test del curso.
     private const string Separator = "----------------------------------------";
     private const string CancelOption = "Cancelar";
     private const string PlayerTeamHeader = "Equipo del jugador";
@@ -13,8 +13,6 @@ public class View
     private const string InvalidTeamMessage = "Archivo de equipos no válido";
     private const string WeaponSelectionMessage = "Seleccione un arma";
     private const string BoostPointsMessage = "Seleccione cuantos BP utilizar";
-    private const string NotEnoughBoostPrefix = " no tiene ";
-    private const string NotEnoughBoostSuffix = " BP para utilizar";
     private const string FleeMessage = "El equipo de viajeros ha huido!";
     private const string PlayerWinsMessage = "Gana equipo del jugador";
     private const string EnemyWinsMessage = "Gana equipo del enemigo";
@@ -22,24 +20,21 @@ public class View
     private const string UseSkillOption = "2: Usar habilidad";
     private const string DefendOption = "3: Defender";
     private const string FleeOption = "4: Huir";
-    private const string TurnPrefix = "Turno de ";
-    private const string SkillSelectionPrefix = "Seleccione una habilidad para ";
-    private const string TargetSelectionPrefix = "Seleccione un objetivo para ";
-    private const string DefendSuffix = " se defiende";
-    private const string BreakingPointSuffix = " entra en Breaking Point";
-    private const string HealConnector = " recupera ";
-    private const string HealSuffix = " de vida";
-    private const string ReviveSuffix = " revive";
-    private const string PriorityPrefix = " tendrá menor prioridad de turno durante ";
-    private const string PrioritySuffix = " rondas";
-    private const string ExtraTurnSuffix = " obtiene un turno adicional";
-    private const string HpPrefix = " termina con HP:";
-    private const string DamagePrefix = " recibe ";
-    private const string DamageTypedPrefix = " de daño de tipo ";
+    private const string TurnText = "Turno de ";
+    private const string SkillSelectionText = "Seleccione una habilidad para ";
+    private const string TargetSelectionText = "Seleccione un objetivo para ";
+    private const string DefendText = " se defiende";
+    private const string BreakingPointText = " entra en Breaking Point";
+    private const string HealMessage = "{0} recupera {1} de vida";
+    private const string ReviveText = " revive";
+    private const string LowerPriorityMessage = "{0} tendrá menor prioridad de turno durante {1} rondas";
+    private const string HpResultMessage = "{0} termina con HP:{1}";
+    private const string DamageReceivedText = " recibe ";
+    private const string DamageTypedText = " de daño de tipo ";
     private const string DamagePhysicalText = " de daño físico";
     private const string DamageElementalText = " de daño elemental";
     private const string DamageUntypedText = " de daño";
-    private const string WeaknessSuffix = " con debilidad";
+    private const string WeaknessText = " con debilidad";
 
     private readonly AbstractView _view;
 
@@ -97,7 +92,7 @@ public class View
     public int SelectAction(string travelerName)
     {
         WriteSeparator();
-        _view.WriteLine($"{TurnPrefix}{travelerName}");
+        _view.WriteLine($"{TurnText}{travelerName}");
         _view.WriteLine(BasicAttackOption);
         _view.WriteLine(UseSkillOption);
         _view.WriteLine(DefendOption);
@@ -106,7 +101,7 @@ public class View
     }
 
     public int SelectSkill(string travelerName, IReadOnlyList<string> skillNames)
-        => SelectOption($"{SkillSelectionPrefix}{travelerName}", skillNames);
+        => SelectOption($"{SkillSelectionText}{travelerName}", skillNames);
 
     public int SelectWeapon(IReadOnlyList<string> weapons)
         => SelectOption(WeaponSelectionMessage, weapons);
@@ -124,7 +119,7 @@ public class View
     public int SelectTarget(string travelerName, IReadOnlyList<TargetDisplay> candidates)
     {
         WriteSeparator();
-        _view.WriteLine($"{TargetSelectionPrefix}{travelerName}");
+        _view.WriteLine($"{TargetSelectionText}{travelerName}");
         for (int i = 0; i < candidates.Count; i++)
             _view.WriteLine($"{i + 1}: {FormatTarget(candidates[i])}");
         _view.WriteLine($"{candidates.Count + 1}: {CancelOption}");
@@ -136,12 +131,6 @@ public class View
         WriteSeparator();
         _view.WriteLine(BoostPointsMessage);
         return ReadNumber();
-    }
-
-    public void AnnounceNotEnoughBoostPoints(string travelerName, int amount)
-    {
-        WriteSeparator();
-        _view.WriteLine($"{travelerName}{NotEnoughBoostPrefix}{amount}{NotEnoughBoostSuffix}");
     }
 
     public void AnnounceBasicAttack(string travelerName)
@@ -159,31 +148,25 @@ public class View
     public void AnnounceDamage(DamageReport report)
     {
         if (report.TargetDefending && report.Kind != DamageKind.Untyped)
-            _view.WriteLine($"{report.TargetName}{DefendSuffix}");
-        _view.WriteLine($"{report.TargetName}{DamagePrefix}{report.Damage}{DamageSuffix(report)}");
+            _view.WriteLine($"{report.TargetName}{DefendText}");
+        _view.WriteLine($"{report.TargetName}{DamageReceivedText}{report.Damage}{DamageDetailText(report)}");
         if (report.EnteredBreakingPoint)
-            _view.WriteLine($"{report.TargetName}{BreakingPointSuffix}");
+            _view.WriteLine($"{report.TargetName}{BreakingPointText}");
     }
 
     public void AnnounceHeal(HealReport report)
-        => _view.WriteLine($"{report.TargetName}{HealConnector}{report.Amount}{HealSuffix}");
+        => _view.WriteLine(string.Format(HealMessage, report.TargetName, report.Amount));
 
     public void AnnounceRevive(ReviveReport report)
-        => _view.WriteLine($"{report.TargetName}{ReviveSuffix}");
+        => _view.WriteLine($"{report.TargetName}{ReviveText}");
 
     public void AnnouncePriority(PriorityReport report)
-        => _view.WriteLine($"{report.TargetName}{PriorityPrefix}{report.Rounds}{PrioritySuffix}");
-
-    public void AnnounceExtraTurn(string travelerName)
-    {
-        WriteSeparator();
-        _view.WriteLine($"{travelerName}{ExtraTurnSuffix}");
-    }
+        =>             _view.WriteLine(string.Format(LowerPriorityMessage, report.TargetName, report.Rounds));
 
     public void AnnounceHpResults(IReadOnlyList<HpReport> reports)
     {
         foreach (HpReport report in reports)
-            _view.WriteLine($"{report.Name}{HpPrefix}{report.CurrentHp}");
+            _view.WriteLine(string.Format(HpResultMessage, report.Name, report.CurrentHp));
     }
 
     public void AnnounceFlee()
@@ -212,17 +195,17 @@ public class View
             _view.WriteLine($"{i + 1}.{names[i]}");
     }
 
-    private static string DamageSuffix(DamageReport report)
+    private static string DamageDetailText(DamageReport report)
         => report.Kind switch
         {
-            DamageKind.Typed => $"{DamageTypedPrefix}{report.TypeName}{WeaknessText(report)}",
+            DamageKind.Typed => $"{DamageTypedText}{report.TypeName}{WeaknessDetailText(report)}",
             DamageKind.Physical => DamagePhysicalText,
             DamageKind.Elemental => DamageElementalText,
             _ => DamageUntypedText
         };
 
-    private static string WeaknessText(DamageReport report)
-        => report.Weakness ? WeaknessSuffix : "";
+    private static string WeaknessDetailText(DamageReport report)
+        => report.Weakness ? WeaknessText : "";
 
     private static string FormatTraveler(TravelerDisplay traveler)
         => $"{traveler.Letter}-{traveler.Name} - HP:{traveler.CurrentHp}/{traveler.MaxHp} " +

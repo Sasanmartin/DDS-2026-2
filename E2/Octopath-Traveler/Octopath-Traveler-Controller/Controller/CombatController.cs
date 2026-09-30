@@ -36,11 +36,10 @@ public class CombatController
 
     public void Run()
     {
-        ApplyCombatStartPassives();
         while (!IsCombatFinished())
         {
             AdvanceRound();
-            PlayRound();
+            PlayCurrentOrder();
             if (!IsCombatFinished())
                 EndRound();
         }
@@ -104,13 +103,6 @@ public class CombatController
         _combatFinished = true;
     }
 
-    private void ApplyCombatStartPassives()
-    {
-        foreach (Traveler traveler in _travelers)
-            foreach (PassiveSkill passive in traveler.PassiveSkills)
-                passive.OnCombatStart(traveler);
-    }
-
     private void AdvanceRound()
     {
         _round++;
@@ -128,13 +120,6 @@ public class CombatController
             beast.RecoverFromBreakingPoint();
     }
 
-    private void PlayRound()
-    {
-        PlayCurrentOrder();
-        if (!IsCombatFinished())
-            PlayExtraTurns();
-    }
-
     private void PlayCurrentOrder()
     {
         while (!IsCombatFinished())
@@ -149,32 +134,8 @@ public class CombatController
         }
     }
 
-    // Los turnos extra de Patience se juegan antes de las curas de fin de ronda
-    // (Vim and Vigor / Second Wind) y antes de otorgar BP.
-    private void PlayExtraTurns()
-    {
-        List<Unit> extraTurns = PatienceExtraTurns();
-        if (extraTurns.Count == 0)
-            return;
-
-        foreach (Unit unit in extraTurns)
-            _reporter.AnnounceExtraTurn(unit.Name);
-        _currentRoundOrder = extraTurns;
-        _currentRoundIndex = 0;
-        PlayCurrentOrder();
-    }
-
     private List<Unit> NextRoundOrder()
         => _turnQueue.BuildOrder(_travelers, _beasts, _round + 1);
-
-    private List<Unit> PatienceExtraTurns()
-        => _travelers
-            .Where(traveler => traveler.IsAlive && HasPatienceExtraTurn(traveler))
-            .Cast<Unit>()
-            .ToList();
-
-    private static bool HasPatienceExtraTurn(Traveler traveler)
-        => traveler.PassiveSkills.Any(passive => passive.GrantsExtraTurn(traveler));
 
     private Unit? GetNextActiveUnit()
     {
@@ -224,16 +185,8 @@ public class CombatController
 
     private void EndRound()
     {
-        ApplyRoundEndPassives();
         StopDefending();
         GrantBoostPoints();
-    }
-
-    private void ApplyRoundEndPassives()
-    {
-        foreach (Traveler traveler in _travelers.Where(traveler => traveler.IsAlive))
-            foreach (PassiveSkill passive in traveler.PassiveSkills)
-                passive.OnRoundEnd(traveler);
     }
 
     private void StopDefending()

@@ -4,8 +4,6 @@ namespace Octopath_Traveler;
 
 public class ActionSelector
 {
-    private const int MaxBoostPointsPerAction = 3;
-
     private readonly View _view;
     private readonly CombatState _state;
     private readonly IReadOnlyList<Beast> _beasts;
@@ -28,7 +26,8 @@ public class ActionSelector
         if (weapon is null) return null;
         Beast? target = SelectBeastTarget(traveler);
         if (target is null) return null;
-        return new BasicAttackRequest(weapon, target, SelectBoostPoints(traveler));
+        ShowBoostMenu(traveler);
+        return new BasicAttackRequest(weapon, target);
     }
 
     public SkillRequest? SelectSkillRequest(Traveler traveler)
@@ -39,7 +38,7 @@ public class ActionSelector
         Unit? target = SelectSkillTarget(traveler, skill);
         if (skill.RequiresWeaponChoice && weapon is null) return null;
         if (skill.RequiresTargetChoice && target is null) return null;
-        SelectBoostPoints(traveler);
+        ShowBoostMenu(traveler);
         return new SkillRequest(skill, target, weapon);
     }
 
@@ -72,22 +71,13 @@ public class ActionSelector
         return choice == candidates.Count + 1 ? null : candidates[choice - 1];
     }
 
-    private int SelectBoostPoints(Traveler traveler)
+    private void ShowBoostMenu(Traveler traveler)
     {
         if (traveler.BoostPoints < 1)
-            return 0;
+            return;
 
-        int requested = _view.AskBoostPoints();
-        while (!IsBoostRequestValid(traveler, requested))
-        {
-            _view.AnnounceNotEnoughBoostPoints(traveler.Name, requested);
-            requested = _view.AskBoostPoints();
-        }
-        return requested;
+        _view.AskBoostPoints();
     }
-
-    private static bool IsBoostRequestValid(Traveler traveler, int requested)
-        => requested <= Math.Min(MaxBoostPointsPerAction, traveler.BoostPoints);
 
     private AttackType? SelectAttackType()
     {

@@ -37,9 +37,6 @@ public class CombatReporter
     public void AnnounceSkillUse(string actorName, string skillName)
         => _view.AnnounceSkillUse(actorName, skillName);
 
-    public void AnnounceExtraTurn(string travelerName)
-        => _view.AnnounceExtraTurn(travelerName);
-
     public void AnnounceFlee()
         => _view.AnnounceFlee();
 
