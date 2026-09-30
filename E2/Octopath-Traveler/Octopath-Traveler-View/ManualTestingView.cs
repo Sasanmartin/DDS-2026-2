@@ -24,7 +24,7 @@ public class ManualTestingView : TestingView
 
     private void CheckIfCurrentOutputIsAsExpected(object text)
     {
-        string normalizedText = GetNormalizedTest(text.ToString());
+        string normalizedText = GetNormalizedTest(text.ToString() ?? "");
         string[] lines = normalizedText.Split("\n");
         CheckThatLinesMatchTheExpectedOutput(lines);
     }
@@ -91,6 +91,6 @@ public class ManualTestingView : TestingView
     private string GetNextInputFromUser()
     {
         Console.Write($"[INPUT MANUAL]: ");
-        return Console.ReadLine();
+        return Console.ReadLine() ?? "";
     }
 }

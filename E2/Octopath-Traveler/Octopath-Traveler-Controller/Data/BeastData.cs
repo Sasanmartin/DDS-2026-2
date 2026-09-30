@@ -1,6 +1,6 @@
 namespace Octopath_Traveler;
 
-public class EnemyData
+public class BeastData
 {
     public string Name { get; set; } = "";
     public Stats Stats { get; set; } = new();

@@ -4,9 +4,6 @@ namespace Octopath_Traveler;
 
 public class Game
 {
-    private const string ChooseFileMessage = "Elige un archivo para cargar los equipos";
-    private const string InvalidTeamMessage = "Archivo de equipos no válido";
-
     private readonly View _view;
     private readonly string _teamsFolder;
     private readonly string _dataDirectory;
@@ -20,41 +17,50 @@ public class Game
 
     public void Play()
     {
-        string[] teamFiles = GetTeamFilesInOrder();
-        AnnounceAvailableTeamFiles(teamFiles);
-        string selectedFile = AskUserToSelectTeamFile(teamFiles);
-
-        TeamDefinition team = new TeamLoader().Parse(selectedFile);
-        if (!new TeamValidator().IsValid(team))
-        {
-            _view.WriteLine(InvalidTeamMessage);
+        TeamDefinition? team = LoadSelectedTeam();
+        if (team is null)
             return;
-        }
 
         (List<Traveler> travelers, List<Beast> beasts) = BuildTeams(team);
-        new Battle(_view, travelers, beasts).Run();
+        new CombatController(_view, travelers, beasts).Run();
     }
+
+    private TeamDefinition? LoadSelectedTeam()
+    {
+        string[] teamFiles = GetTeamFilesInOrder();
+        int selectedIndex = _view.SelectTeamFile(GetFileNames(teamFiles));
+        TeamDefinition team = new TeamLoader().Parse(teamFiles[selectedIndex]);
+
+        if (new TeamValidator().IsValid(team))
+            return team;
+
+        _view.AnnounceInvalidTeam();
+        return null;
+    }
+
+    private static List<string> GetFileNames(string[] teamFiles)
+        => teamFiles.Select(file => Path.GetFileName(file) ?? file).ToList();
 
     private (List<Traveler> travelers, List<Beast> beasts) BuildTeams(TeamDefinition team)
     {
         DataLoader dataLoader = new(_dataDirectory);
-        TeamBuilder teamBuilder = new(dataLoader.LoadCharacters(), dataLoader.LoadEnemies(), dataLoader.LoadBeastSkills());
+        TeamBuilder teamBuilder = new(BuildGameData(dataLoader));
         return (teamBuilder.BuildTravelers(team), teamBuilder.BuildBeasts(team));
+    }
+
+    private static GameData BuildGameData(DataLoader dataLoader)
+    {
+        DamageCalculator calculator = new();
+        return new GameData
+        {
+            Travelers = dataLoader.LoadTravelers(),
+            Beasts = dataLoader.LoadBeasts(),
+            BeastSkills = dataLoader.LoadBeastSkills(),
+            ActiveSkills = new ActiveSkillFactory(dataLoader.LoadActiveSkills(), calculator),
+            PassiveSkills = new PassiveSkillFactory()
+        };
     }
 
     private string[] GetTeamFilesInOrder()
         => Directory.GetFiles(_teamsFolder, "*.txt").OrderBy(file => file).ToArray();
-
-    private void AnnounceAvailableTeamFiles(string[] teamFiles)
-    {
-        _view.WriteLine(ChooseFileMessage);
-        for (int i = 0; i < teamFiles.Length; i++)
-            _view.WriteLine($"{i}: {Path.GetFileName(teamFiles[i])}");
-    }
-
-    private string AskUserToSelectTeamFile(string[] teamFiles)
-    {
-        int selectedIndex = int.Parse(_view.ReadLine());
-        return teamFiles[selectedIndex];
-    }
 }

@@ -11,6 +11,6 @@ public class ConsoleView : AbstractView
     protected override string GetNextInput()
     {
         Console.Write("INPUT: ");
-        return Console.ReadLine();
+        return Console.ReadLine() ?? "";
     }
 }

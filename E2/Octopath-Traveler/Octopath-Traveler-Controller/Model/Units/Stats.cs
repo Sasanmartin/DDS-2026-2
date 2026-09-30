@@ -9,4 +9,16 @@ public class Stats
     public int ElemAtk { get; set; }
     public int ElemDef { get; set; }
     public int Speed { get; set; }
+
+    public Stats Copy()
+        => new()
+        {
+            HP = HP,
+            SP = SP,
+            PhysAtk = PhysAtk,
+            PhysDef = PhysDef,
+            ElemAtk = ElemAtk,
+            ElemDef = ElemDef,
+            Speed = Speed
+        };
 }

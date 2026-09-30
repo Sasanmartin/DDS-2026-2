@@ -1,6 +1,6 @@
 namespace Octopath_Traveler;
 
-public class CharacterData
+public class TravelerData
 {
     public string Name { get; set; } = "";
     public Stats Stats { get; set; } = new();

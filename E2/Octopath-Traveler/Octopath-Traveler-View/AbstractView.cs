@@ -8,7 +8,7 @@ public abstract class AbstractView
         => Write($"{text}\n");
 
     protected virtual void Write(object text)
-        => _script.AddToScript(text.ToString());
+        => _script.AddToScript(text.ToString() ?? "");
 
     public string ReadLine()
     {
