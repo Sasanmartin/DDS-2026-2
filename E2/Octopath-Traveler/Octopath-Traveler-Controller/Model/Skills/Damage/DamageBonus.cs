@@ -1,16 +1,16 @@
 namespace Octopath_Traveler;
 
-public interface IDamageScaling
+public interface IDamageBonus
 {
     double Apply(double baseDamage, Unit user);
 }
 
-public class FixedDamageScaling : IDamageScaling
+public class NoDamageBonus : IDamageBonus
 {
     public double Apply(double baseDamage, Unit user) => baseDamage;
 }
 
-public class MissingHpDamageScaling : IDamageScaling
+public class MissingHpDamageBonus : IDamageBonus
 {
     private const int PercentTotal = 100;
     private const double BonusPerMissingPercent = 0.03;

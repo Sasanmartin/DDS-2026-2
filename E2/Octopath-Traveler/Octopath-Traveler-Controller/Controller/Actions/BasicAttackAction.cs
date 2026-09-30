@@ -2,9 +2,9 @@ namespace Octopath_Traveler;
 
 public class BasicAttackAction : ITravelerAction
 {
-    public TurnOutcome Execute(CombatController controller, Traveler traveler)
+    public TurnOutcome Execute(ActionSelector selector, CombatController controller, Traveler traveler)
     {
-        BasicAttackRequest? request = controller.SelectBasicAttack(traveler);
+        BasicAttackRequest? request = selector.SelectBasicAttack(traveler);
         if (request is null)
             return TurnOutcome.Cancelled;
 

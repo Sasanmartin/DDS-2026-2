@@ -39,5 +39,13 @@ public sealed class AttackType
         return new AttackType(name, isPhysical, isElemental: !isPhysical);
     }
 
+    public IReadOnlyList<AttackType> Repeat(int count)
+    {
+        List<AttackType> hits = new();
+        for (int i = 0; i < count; i++)
+            hits.Add(this);
+        return hits;
+    }
+
     public override string ToString() => Name;
 }

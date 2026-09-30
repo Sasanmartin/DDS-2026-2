@@ -2,6 +2,11 @@ namespace Octopath_Traveler;
 
 public class TeamLoader
 {
+    // Formato del archivo de equipos:
+    //   Player Team
+    //   Viajero (Habilidad activa, ...) [Habilidad pasiva, ...]
+    //   Enemy Team
+    //   Bestia
     private const string PlayerTeamHeader = "Player Team";
     private const string EnemyTeamHeader = "Enemy Team";
     private const char ActiveSkillOpening = '(';

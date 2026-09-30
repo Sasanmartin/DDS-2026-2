@@ -35,13 +35,8 @@ public class DamageEffect : ISkillEffect
     }
 
     private int CalculateDamage(SkillContext context, Unit target, AttackType type)
-        => _calculator.CalculateDamage(new DamageRequest
-        {
-            Attacker = context.User,
-            Target = target,
-            Type = type,
-            Profile = _profile
-        });
+        => _calculator.CalculateDamage(
+            new DamageRequest(context.User, target, type, _profile));
 
     private static bool TargetsWeakness(Unit target, AttackType type)
         => target is Beast beast && beast.IsWeakTo(type);

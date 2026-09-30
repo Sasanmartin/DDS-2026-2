@@ -1,4 +1,7 @@
 namespace Octopath_Traveler_View;
 
-public record TurnQueuesDisplay(IReadOnlyList<string> CurrentRoundNames,
-    IReadOnlyList<string> NextRoundNames);
+public class TurnQueuesDisplay
+{
+    public IReadOnlyList<string> CurrentRoundNames { get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> NextRoundNames { get; set; } = Array.Empty<string>();
+}

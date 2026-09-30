@@ -35,7 +35,7 @@ public class BeastSkillFactory
 
         DamageProfile profile = new()
         {
-            Hits = Enumerable.Repeat(AttackTypeFor(skill), Math.Max(1, skill.Hits)).ToList(),
+            Hits = AttackTypeFor(skill).Repeat(Math.Max(1, skill.Hits)),
             Modifier = skill.Modifier
         };
         return new ActiveSkill(skill.Name, spCost: 0, SelectorFor(skill),

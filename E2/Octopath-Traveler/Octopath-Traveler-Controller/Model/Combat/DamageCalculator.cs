@@ -12,10 +12,10 @@ public class DamageCalculator
         double modifier = request.Profile.Modifier;
         double offense = OffensiveStatOf(request.Attacker, request.Type);
         double defense = DefensiveStatOf(request.Target, request.Type);
-        double baseDamage = request.Profile.ApplyScaling(offense * modifier - defense, request.Attacker);
+        double baseDamage = request.Profile.ApplyBonus(offense * modifier - defense, request.Attacker);
         double multiplier = DamageMultiplier(request.Target, request.Type);
         double damage = Math.Max(0, baseDamage) * multiplier;
-        return request.Profile.ApplyLimit(Truncate(damage), request.Target);
+        return request.Profile.ApplyCap(Truncate(damage), request.Target);
     }
 
     private static int Truncate(double value)
@@ -29,6 +29,7 @@ public class DamageCalculator
 
     private static double DamageMultiplier(Unit target, AttackType type)
     {
+        // Multiplicador final: 1 + 0.5 por debilidad + 0.5 por Breaking Point; Defender lo reduce a la mitad.
         double multiplier = NoBonus;
         if (target is Beast beast)
             multiplier += BeastMultiplierBonus(beast, type);

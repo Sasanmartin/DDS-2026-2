@@ -8,13 +8,36 @@ public enum DamageKind
     Untyped
 }
 
-public record DamageReport(string TargetName, int Damage, DamageKind Kind, string TypeName,
-    bool Weakness, bool TargetDefending, bool EnteredBreakingPoint);
+public class DamageReport
+{
+    public string TargetName { get; set; } = "";
+    public int Damage { get; set; }
+    public DamageKind Kind { get; set; }
+    public string TypeName { get; set; } = "";
+    public bool Weakness { get; set; }
+    public bool TargetDefending { get; set; }
+    public bool EnteredBreakingPoint { get; set; }
+}
 
-public record HealReport(string TargetName, int Amount);
+public class HealReport
+{
+    public string TargetName { get; set; } = "";
+    public int Amount { get; set; }
+}
 
-public record ReviveReport(string TargetName);
+public class ReviveReport
+{
+    public string TargetName { get; set; } = "";
+}
 
-public record PriorityReport(string TargetName, int Rounds);
+public class PriorityReport
+{
+    public string TargetName { get; set; } = "";
+    public int Rounds { get; set; }
+}
 
-public record HpReport(string Name, int CurrentHp);
+public class HpReport
+{
+    public string Name { get; set; } = "";
+    public int CurrentHp { get; set; }
+}

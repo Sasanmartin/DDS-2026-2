@@ -1,9 +1,22 @@
 namespace Octopath_Traveler_View;
 
-public record TargetDisplay(string Name);
+public class TargetDisplay
+{
+    public string Name { get; set; } = "";
+}
 
-public sealed record TravelerTargetDisplay(string Name, int CurrentHp, int MaxHp,
-    int CurrentSp, int MaxSp, int BoostPoints) : TargetDisplay(Name);
+public class TravelerTargetDisplay : TargetDisplay
+{
+    public int CurrentHp { get; set; }
+    public int MaxHp { get; set; }
+    public int CurrentSp { get; set; }
+    public int MaxSp { get; set; }
+    public int BoostPoints { get; set; }
+}
 
-public sealed record BeastTargetDisplay(string Name, int CurrentHp, int MaxHp, int Shields)
-    : TargetDisplay(Name);
+public class BeastTargetDisplay : TargetDisplay
+{
+    public int CurrentHp { get; set; }
+    public int MaxHp { get; set; }
+    public int Shields { get; set; }
+}

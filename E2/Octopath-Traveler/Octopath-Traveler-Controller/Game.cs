@@ -51,14 +51,12 @@ public class Game
     private static GameData BuildGameData(DataLoader dataLoader)
     {
         DamageCalculator calculator = new();
-        return new GameData
-        {
-            Travelers = dataLoader.LoadTravelers(),
-            Beasts = dataLoader.LoadBeasts(),
-            BeastSkills = dataLoader.LoadBeastSkills(),
-            ActiveSkills = new ActiveSkillFactory(dataLoader.LoadActiveSkills(), calculator),
-            PassiveSkills = new PassiveSkillFactory()
-        };
+        return new GameData(
+            dataLoader.LoadTravelers(),
+            dataLoader.LoadBeasts(),
+            dataLoader.LoadBeastSkills(),
+            new ActiveSkillFactory(dataLoader.LoadActiveSkills(), calculator),
+            new PassiveSkillFactory());
     }
 
     private string[] GetTeamFilesInOrder()

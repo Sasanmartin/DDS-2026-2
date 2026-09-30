@@ -2,7 +2,14 @@ namespace Octopath_Traveler;
 
 public class SkillRequest
 {
-    public required ActiveSkill Skill { get; init; }
-    public Unit? Target { get; init; }
-    public AttackType? Weapon { get; init; }
+    public SkillRequest(ActiveSkill skill, Unit? target, AttackType? weapon)
+    {
+        Skill = skill;
+        Target = target;
+        Weapon = weapon;
+    }
+
+    public ActiveSkill Skill { get; }
+    public Unit? Target { get; }
+    public AttackType? Weapon { get; }
 }

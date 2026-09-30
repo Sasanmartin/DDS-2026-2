@@ -4,6 +4,7 @@ public class TurnQueue
 {
     public List<Unit> BuildOrder(IReadOnlyList<Traveler> travelers, IReadOnlyList<Beast> beasts, int round)
     {
+        // Categorías de prioridad: recuperar Breaking Point > Defender > prioridad+ > normal > prioridad−.
         List<Unit> board = travelers.Cast<Unit>().Concat(beasts).Where(unit => unit.IsAlive).ToList();
         List<Unit> available = board.Where(unit => !IsBrokenDuring(unit, round)).ToList();
         List<Unit> ordered = new();

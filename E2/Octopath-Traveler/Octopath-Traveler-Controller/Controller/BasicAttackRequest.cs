@@ -2,7 +2,14 @@ namespace Octopath_Traveler;
 
 public class BasicAttackRequest
 {
-    public required string Weapon { get; init; }
-    public required Unit Target { get; init; }
-    public int BoostPoints { get; init; }
+    public BasicAttackRequest(string weapon, Unit target, int boostPoints)
+    {
+        Weapon = weapon;
+        Target = target;
+        BoostPoints = boostPoints;
+    }
+
+    public string Weapon { get; }
+    public Unit Target { get; }
+    public int BoostPoints { get; }
 }

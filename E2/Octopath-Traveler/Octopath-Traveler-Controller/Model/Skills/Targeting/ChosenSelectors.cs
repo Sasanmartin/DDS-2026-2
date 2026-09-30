@@ -9,8 +9,11 @@ public class ChosenLivingOpponentSelector : IChoosableTargetSelector
         => IsValid(context) ? new[] { context.ChosenTarget! } : Array.Empty<Unit>();
 
     private static bool IsValid(SkillContext context)
-        => context.ChosenTarget is { IsAlive: true } target
-           && context.State.LivingOpponentsOf(context.User).Contains(target);
+    {
+        Unit? target = context.ChosenTarget;
+        return target is not null && target.IsAlive
+            && context.State.LivingOpponentsOf(context.User).Contains(target);
+    }
 }
 
 public class ChosenLivingAllySelector : IChoosableTargetSelector
@@ -22,8 +25,11 @@ public class ChosenLivingAllySelector : IChoosableTargetSelector
         => IsValid(context) ? new[] { context.ChosenTarget! } : Array.Empty<Unit>();
 
     private static bool IsValid(SkillContext context)
-        => context.ChosenTarget is { IsAlive: true } target
-           && context.State.LivingAlliesOf(context.User).Contains(target);
+    {
+        Unit? target = context.ChosenTarget;
+        return target is not null && target.IsAlive
+            && context.State.LivingAlliesOf(context.User).Contains(target);
+    }
 }
 
 public class ChosenFallenAllySelector : IChoosableTargetSelector
@@ -35,6 +41,9 @@ public class ChosenFallenAllySelector : IChoosableTargetSelector
         => IsValid(context) ? new[] { context.ChosenTarget! } : Array.Empty<Unit>();
 
     private static bool IsValid(SkillContext context)
-        => context.ChosenTarget is { IsAlive: false } target
-           && context.State.FallenAlliesOf(context.User).Contains(target);
+    {
+        Unit? target = context.ChosenTarget;
+        return target is not null && !target.IsAlive
+            && context.State.FallenAlliesOf(context.User).Contains(target);
+    }
 }

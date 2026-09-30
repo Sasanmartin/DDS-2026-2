@@ -21,9 +21,11 @@ public class CombatReporter
     public void ShowTurnState(IReadOnlyList<Unit> currentRound, IReadOnlyList<Unit> nextRound)
     {
         _view.ShowBoard(BuildBoard());
-        _view.ShowTurnQueues(new TurnQueuesDisplay(
-            currentRound.Select(unit => unit.Name).ToList(),
-            nextRound.Select(unit => unit.Name).ToList()));
+        _view.ShowTurnQueues(new TurnQueuesDisplay
+        {
+            CurrentRoundNames = currentRound.Select(unit => unit.Name).ToList(),
+            NextRoundNames = nextRound.Select(unit => unit.Name).ToList()
+        });
     }
 
     public IReadOnlyList<TargetDisplay> ToTargetDisplays(IReadOnlyList<Unit> units)
@@ -59,29 +61,55 @@ public class CombatReporter
         switch (outcome)
         {
             case DamageOutcome damage: _view.AnnounceDamage(BuildDamage(damage)); break;
-            case HealOutcome heal: _view.AnnounceHeal(new HealReport(heal.Target.Name, heal.Amount)); break;
-            case ReviveOutcome revive: _view.AnnounceRevive(new ReviveReport(revive.Target.Name)); break;
+            case HealOutcome heal: _view.AnnounceHeal(BuildHeal(heal)); break;
+            case ReviveOutcome revive: _view.AnnounceRevive(new ReviveReport { TargetName = revive.Target.Name }); break;
             case PriorityOutcome priority: AnnouncePriority(priority); break;
         }
     }
 
+    private static HealReport BuildHeal(HealOutcome outcome)
+        => new()
+        {
+            TargetName = outcome.Target.Name,
+            Amount = outcome.Amount
+        };
+
     private void AnnouncePriority(PriorityOutcome outcome)
     {
         if (!outcome.Increased)
-            _view.AnnouncePriority(new PriorityReport(outcome.Target.Name, outcome.Rounds));
+            _view.AnnouncePriority(new PriorityReport
+            {
+                TargetName = outcome.Target.Name,
+                Rounds = outcome.Rounds
+            });
     }
 
     private BoardDisplay BuildBoard()
-        => new(
-            _travelers.Select((traveler, index) => new TravelerDisplay(
-                LetterFor(index), traveler.Name, traveler.CurrentHp, traveler.MaxHp,
-                traveler.CurrentSp, traveler.MaxSp, traveler.BoostPoints)).ToList(),
-            _beasts.Select((beast, index) => new BeastDisplay(
-                LetterFor(index), beast.Name, beast.CurrentHp, beast.MaxHp, beast.Shields)).ToList());
+        => new()
+        {
+            Travelers = _travelers.Select((traveler, index) => new TravelerDisplay
+            {
+                Letter = LetterFor(index),
+                Name = traveler.Name,
+                CurrentHp = traveler.CurrentHp,
+                MaxHp = traveler.MaxHp,
+                CurrentSp = traveler.CurrentSp,
+                MaxSp = traveler.MaxSp,
+                BoostPoints = traveler.BoostPoints
+            }).ToList(),
+            Beasts = _beasts.Select((beast, index) => new BeastDisplay
+            {
+                Letter = LetterFor(index),
+                Name = beast.Name,
+                CurrentHp = beast.CurrentHp,
+                MaxHp = beast.MaxHp,
+                Shields = beast.Shields
+            }).ToList()
+        };
 
     private static IReadOnlyList<HpReport> BuildHpResults(IReadOnlyList<SkillOutcome> outcomes)
         => AffectedUnits(outcomes)
-            .Select(unit => new HpReport(unit.Name, unit.CurrentHp))
+            .Select(unit => new HpReport { Name = unit.Name, CurrentHp = unit.CurrentHp })
             .ToList();
 
     private static IEnumerable<Unit> AffectedUnits(IReadOnlyList<SkillOutcome> outcomes)
@@ -97,14 +125,16 @@ public class CombatReporter
         };
 
     private static DamageReport BuildDamage(DamageOutcome outcome)
-        => new(
-            outcome.Target.Name,
-            outcome.Damage,
-            DamageKindOf(outcome),
-            outcome.Type.Name,
-            outcome.Weakness,
-            outcome.Target.IsDefending,
-            outcome.EnteredBreakingPoint);
+        => new()
+        {
+            TargetName = outcome.Target.Name,
+            Damage = outcome.Damage,
+            Kind = DamageKindOf(outcome),
+            TypeName = outcome.Type.Name,
+            Weakness = outcome.Weakness,
+            TargetDefending = outcome.Target.IsDefending,
+            EnteredBreakingPoint = outcome.EnteredBreakingPoint
+        };
 
     private static DamageKind DamageKindOf(DamageOutcome outcome)
     {
@@ -118,10 +148,23 @@ public class CombatReporter
     private static TargetDisplay ToTargetDisplay(Unit unit)
         => unit switch
         {
-            Traveler traveler => new TravelerTargetDisplay(traveler.Name, traveler.CurrentHp,
-                traveler.MaxHp, traveler.CurrentSp, traveler.MaxSp, traveler.BoostPoints),
-            Beast beast => new BeastTargetDisplay(beast.Name, beast.CurrentHp, beast.MaxHp, beast.Shields),
-            _ => new TargetDisplay(unit.Name)
+            Traveler traveler => new TravelerTargetDisplay
+            {
+                Name = traveler.Name,
+                CurrentHp = traveler.CurrentHp,
+                MaxHp = traveler.MaxHp,
+                CurrentSp = traveler.CurrentSp,
+                MaxSp = traveler.MaxSp,
+                BoostPoints = traveler.BoostPoints
+            },
+            Beast beast => new BeastTargetDisplay
+            {
+                Name = beast.Name,
+                CurrentHp = beast.CurrentHp,
+                MaxHp = beast.MaxHp,
+                Shields = beast.Shields
+            },
+            _ => new TargetDisplay { Name = unit.Name }
         };
 
     private static string LetterFor(int index)

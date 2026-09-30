@@ -20,7 +20,7 @@ public class CombatResolver
 
         DamageProfile profile = new()
         {
-            Hits = Enumerable.Repeat(AttackType.FromName(request.Weapon), 1 + request.BoostPoints).ToList(),
+            Hits = AttackType.FromName(request.Weapon).Repeat(1 + request.BoostPoints),
             Modifier = BasicAttackModifier
         };
         return ApplyDamage(traveler, request.Target, profile);

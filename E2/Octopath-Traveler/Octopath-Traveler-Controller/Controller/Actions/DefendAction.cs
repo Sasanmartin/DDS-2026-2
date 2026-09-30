@@ -2,7 +2,7 @@ namespace Octopath_Traveler;
 
 public class DefendAction : ITravelerAction
 {
-    public TurnOutcome Execute(CombatController controller, Traveler traveler)
+    public TurnOutcome Execute(ActionSelector selector, CombatController controller, Traveler traveler)
     {
         controller.Defend(traveler);
         return TurnOutcome.Completed;

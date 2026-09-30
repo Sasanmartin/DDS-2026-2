@@ -104,11 +104,11 @@ public class ActiveSkillFactory
 
     private ActiveSkill BuildLastStand(ActiveSkillData data)
         => BuildSingleHit(data, SingleHitProfile(AttackType.FromName(data.Type), data.Modifier,
-            scaling: new MissingHpDamageScaling()));
+            bonus: new MissingHpDamageBonus()));
 
     private ActiveSkill BuildMercyStrike(ActiveSkillData data)
         => BuildSingleHit(data, SingleHitProfile(AttackType.FromName(data.Type), data.Modifier,
-            limit: new LeaveAtLeastOneHpLimit()));
+            cap: new LeaveAtLeastOneHpCap()));
 
     private ActiveSkill BuildShootingStars(ActiveSkillData data)
         => BuildSingleHit(data, new DamageProfile
@@ -124,7 +124,7 @@ public class ActiveSkillFactory
     private ActiveSkill BuildHpThief(ActiveSkillData data)
         => BuildSingleHit(data, new DamageProfile
         {
-            Hits = Enumerable.Repeat(AttackType.FromName(data.Type), HpThiefHits).ToList(),
+            Hits = AttackType.FromName(data.Type).Repeat(HpThiefHits),
             Modifier = data.Modifier
         });
 
@@ -133,13 +133,13 @@ public class ActiveSkillFactory
             new ISkillEffect[] { new DamageEffect(profile, _calculator) });
 
     private static DamageProfile SingleHitProfile(AttackType type, double modifier,
-        IDamageScaling? scaling = null, IDamageLimit? limit = null)
+        IDamageBonus? bonus = null, IDamageCap? cap = null)
         => new()
         {
             Hits = new[] { type },
             Modifier = modifier,
-            Scaling = scaling ?? new FixedDamageScaling(),
-            Limit = limit ?? new FullDamageLimit()
+            DamageBonus = bonus ?? new NoDamageBonus(),
+            DamageCap = cap ?? new NoDamageCap()
         };
 
     private static ActiveSkill BuildWithoutEffects(string name, int spCost)

@@ -2,6 +2,7 @@
 
 public class View
 {
+    // Todos los textos deben coincidir exactamente con los guiones de test del curso.
     private const string Separator = "----------------------------------------";
     private const string CancelOption = "Cancelar";
     private const string PlayerTeamHeader = "Equipo del jugador";

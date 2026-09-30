@@ -46,12 +46,6 @@ public class CombatController
         }
     }
 
-    internal BasicAttackRequest? SelectBasicAttack(Traveler traveler)
-        => _selector.SelectBasicAttack(traveler);
-
-    internal SkillRequest? SelectSkillRequest(Traveler traveler)
-        => _selector.SelectSkillRequest(traveler);
-
     internal void ResolveBasicAttack(Traveler traveler, BasicAttackRequest request)
     {
         IReadOnlyList<SkillOutcome> outcomes = _resolver.ResolveBasicAttack(traveler, request);
@@ -215,7 +209,7 @@ public class CombatController
             if (!_travelerActions.TryGetValue(choice, out ITravelerAction? action))
                 continue;
 
-            if (action.Execute(this, traveler) != TurnOutcome.Cancelled)
+            if (action.Execute(_selector, this, traveler) != TurnOutcome.Cancelled)
                 return;
         }
     }

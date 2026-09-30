@@ -28,12 +28,7 @@ public class ActionSelector
         if (weapon is null) return null;
         Beast? target = SelectBeastTarget(traveler);
         if (target is null) return null;
-        return new BasicAttackRequest
-        {
-            Weapon = weapon,
-            Target = target,
-            BoostPoints = SelectBoostPoints(traveler)
-        };
+        return new BasicAttackRequest(weapon, target, SelectBoostPoints(traveler));
     }
 
     public SkillRequest? SelectSkillRequest(Traveler traveler)
@@ -45,7 +40,7 @@ public class ActionSelector
         if (skill.RequiresWeaponChoice && weapon is null) return null;
         if (skill.RequiresTargetChoice && target is null) return null;
         SelectBoostPoints(traveler);
-        return new SkillRequest { Skill = skill, Target = target, Weapon = weapon };
+        return new SkillRequest(skill, target, weapon);
     }
 
     private ActiveSkill? SelectSkill(Traveler traveler)

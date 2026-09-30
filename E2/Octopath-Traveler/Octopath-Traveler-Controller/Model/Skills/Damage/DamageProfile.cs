@@ -4,20 +4,28 @@ public class DamageProfile
 {
     public IReadOnlyList<AttackType> Hits { get; init; } = Array.Empty<AttackType>();
     public double Modifier { get; init; }
-    public IDamageScaling Scaling { get; init; } = new FixedDamageScaling();
-    public IDamageLimit Limit { get; init; } = new FullDamageLimit();
+    public IDamageBonus DamageBonus { get; init; } = new NoDamageBonus();
+    public IDamageCap DamageCap { get; init; } = new NoDamageCap();
 
-    public double ApplyScaling(double baseDamage, Unit user)
-        => Scaling.Apply(baseDamage, user);
+    public double ApplyBonus(double baseDamage, Unit user)
+        => DamageBonus.Apply(baseDamage, user);
 
-    public int ApplyLimit(int damage, Unit target)
-        => Limit.Limit(damage, target);
+    public int ApplyCap(int damage, Unit target)
+        => DamageCap.Apply(damage, target);
 }
 
 public class DamageRequest
 {
-    public required Unit Attacker { get; init; }
-    public required Unit Target { get; init; }
-    public required AttackType Type { get; init; }
-    public required DamageProfile Profile { get; init; }
+    public DamageRequest(Unit attacker, Unit target, AttackType type, DamageProfile profile)
+    {
+        Attacker = attacker;
+        Target = target;
+        Type = type;
+        Profile = profile;
+    }
+
+    public Unit Attacker { get; }
+    public Unit Target { get; }
+    public AttackType Type { get; }
+    public DamageProfile Profile { get; }
 }
