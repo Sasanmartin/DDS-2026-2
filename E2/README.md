@@ -74,7 +74,7 @@ dotnet test --filter "FullyQualifiedName~TestE2"   # E2: 207 tests
 - La IA me ayudó de manera extensiva a la hora de modelar las clases (acciones del viajero,
   habilidades activas y pasivas, habilidades de bestias) y con el modelo MVC y su estructura
   (Modelo / Vista / Controlador).
-- En particular, me aconsejó modelar las habilidades con **polimorfismo** (objetivos y
+- Me aconsejó modelar las habilidades con **polimorfismo** (objetivos y
   efectos como estrategias que se combinan por composición), en vez de `if`/`switch` por
   nombre de habilidad.
 - También me ayudó con la redacción de este README.
